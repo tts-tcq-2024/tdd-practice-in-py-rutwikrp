@@ -4,7 +4,7 @@ import re
 
 class StringCalculator:
 
-    
+    @staticmethod
     def add(numbers):
         if not numbers:
             return 0
@@ -14,7 +14,7 @@ class StringCalculator:
         
         return StringCalculator._calculate_sum(number_list)
     
-    
+    @staticmethod
     def _extract_delimiter(numbers):
         if numbers.startswith('//'):
             parts = numbers.split('\n', 1)
@@ -27,11 +27,11 @@ class StringCalculator:
             delimiter = ',|\n'
         return delimiter, numbers
 
-    
+    @staticmethod
     def _split_numbers(numbers, delimiter):
         return re.split(delimiter, numbers)
 
-    
+    @staticmethod
     def _calculate_sum(number_list):
         total = 0
         negatives = []
