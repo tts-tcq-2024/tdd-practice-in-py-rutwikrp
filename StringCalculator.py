@@ -1,29 +1,37 @@
+
+
 import re
 
-def add(numbers):
-    if numbers == "":
-        return 0
+class StringCalculator:
     
-    # Check for custom delimiter
-    if numbers.startswith("//"):
-        parts = numbers.split("\n", 1)
-        delimiter = parts[0][2:]
-        numbers = parts[1]
-        numbers = numbers.replace(delimiter, ',')
-    else:
-        # Replace new lines with commas
-        numbers = numbers.replace('\n', ',')
-    
-    # Split numbers by comma
-    num_list = re.split(',|\n', numbers)
-    
-    # Convert to integers and ignore numbers greater than 1000
-    num_list = [int(num) for num in num_list if num and int(num) <= 1000]
-    
-    # Check for negative numbers
-    negatives = [num for num in num_list if num < 0]
-    if negatives:
-        raise ValueError(f"Negatives not allowed: {', '.join(map(str, negatives))}")
-    
-    return sum(num_list)
-
+    @staticmethod
+    def add(numbers):
+        if not numbers:
+            return 0
+        
+        delimiter = ',|\n'
+        if numbers.startswith('//'):
+            parts = numbers.split('\n', 1)
+            custom_delimiter = parts[0][2:]
+            if custom_delimiter.startswith('[') and custom_delimiter.endswith(']'):
+                custom_delimiter = re.escape(custom_delimiter[1:-1])
+            delimiter = custom_delimiter
+            numbers = parts[1]
+        
+        number_list = re.split(delimiter, numbers)
+        
+        total = 0
+        negatives = []
+        
+        for num in number_list:
+            if num:
+                n = int(num)
+                if n < 0:
+                    negatives.append(n)
+                elif n <= 1000:
+                    total += n
+        
+        if negatives:
+            raise Exception(f"Negatives not allowed: {','.join(map(str, negatives))}")
+        
+        return total
