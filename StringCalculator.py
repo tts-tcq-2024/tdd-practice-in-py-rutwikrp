@@ -3,13 +3,19 @@
 import re
 
 class StringCalculator:
+
     
-    @staticmethod
     def add(numbers):
         if not numbers:
             return 0
         
-        delimiter = ',|\n'
+        delimiter, numbers = StringCalculator._extract_delimiter(numbers)
+        number_list = StringCalculator._split_numbers(numbers, delimiter)
+        
+        return StringCalculator._calculate_sum(number_list)
+    
+    
+    def _extract_delimiter(numbers):
         if numbers.startswith('//'):
             parts = numbers.split('\n', 1)
             custom_delimiter = parts[0][2:]
@@ -17,9 +23,16 @@ class StringCalculator:
                 custom_delimiter = re.escape(custom_delimiter[1:-1])
             delimiter = custom_delimiter
             numbers = parts[1]
-        
-        number_list = re.split(delimiter, numbers)
-        
+        else:
+            delimiter = ',|\n'
+        return delimiter, numbers
+
+    
+    def _split_numbers(numbers, delimiter):
+        return re.split(delimiter, numbers)
+
+    
+    def _calculate_sum(number_list):
         total = 0
         negatives = []
         
