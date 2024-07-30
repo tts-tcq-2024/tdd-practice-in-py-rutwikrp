@@ -1,5 +1,5 @@
 import unittest
-from string_calculator import StringCalculator
+from StringCalculator import StringCalculator
 
 class TestStringCalculator(unittest.TestCase):
 
